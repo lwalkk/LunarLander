@@ -1,4 +1,4 @@
-#GraphicsA1
+# GraphicsA1
 
 1. Modify World::draw() to calculate a transform for a zoomed view.
    [1 mark]
