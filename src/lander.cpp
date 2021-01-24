@@ -67,8 +67,12 @@ void Lander::setupVAO()
 
   // ---- Create a VAO for this object ----
 
-  unsigned int VBO;
-  glGenBuffers(1, &VBO);
+  GLCALL(glGenBuffers(1, &VBO));
+
+  glBindBuffer(GL_ARRAY_BUFFER, VBO);
+  glBufferData(GL_ARRAY_BUFFER, 4 * numSegments * sizeof(float), 
+
+
 
 
 }
