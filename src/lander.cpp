@@ -1,11 +1,12 @@
 // lander.cpp
-// devynnn
+
 
 #include "headers.h"
 #include "lander.h"
 #include "world.h"
 #include "gpuProgram.h"
 #include "ll.h"
+
 
 // Animation of the lander is not physically realistic.  The lander
 // should really have a mass (which decreases as fuel is used) and a
@@ -67,14 +68,7 @@ void Lander::setupVAO()
 
   // ---- Create a VAO for this object ----
 
-  GLCALL(glGenBuffers(1, &VBO));
-
-  glBindBuffer(GL_ARRAY_BUFFER, VBO);
-  glBufferData(GL_ARRAY_BUFFER, 4 * numSegments * sizeof(float), 
-
-
-
-
+  // YOUR CODE HERE
 }
 
 
