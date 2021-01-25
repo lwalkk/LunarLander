@@ -78,6 +78,11 @@ void World::draw()
 
   } else {
 
+   float s = 2.0 / (ZOOM_RADIUS);
+    worldToViewTransform
+        = scale(s, s, 1)
+        * translate(lander->centrePosition());
+
     // Find the world-to-view transform that is centred on the lander
     // and is 2*ZOOM_RADIUS wide (in world coordinates).
 
