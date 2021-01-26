@@ -19,7 +19,6 @@ class World {
   Landscape *landscape;
   Lander    *lander;
   bool       zoomView; // show zoomed view when lander is close to landscape
-  bool zPressed = false;
   GLFWwindow *window;
 
   char *showMsg;

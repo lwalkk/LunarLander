@@ -27,15 +27,6 @@ void World::updateState( float elapsedTime )
   if (glfwGetKey( window, GLFW_KEY_DOWN ) == GLFW_PRESS) // down arrow
     lander->addThrust( elapsedTime );
 
-  if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS) { // Z key
-      zoomView = true;
-  }
-
-  if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_RELEASE) { // Z key
-      zoomView = false;
-  }
-
-
   // Update the position and velocity
 
   lander->updatePose( elapsedTime );
@@ -47,7 +38,7 @@ void World::updateState( float elapsedTime )
 
   // Find if the view should be zoomed
 
-  //zoomView = (closestDistance < ZOOM_RADIUS);
+  zoomView = (closestDistance < ZOOM_RADIUS);
 
   // Check for landing or collision and let the user know
   //
@@ -61,9 +52,6 @@ void World::updateState( float elapsedTime )
   // REQUIRED IN THE ASSIGNMENT.
 
   // YOUR CODE HERE
-
-  // if ClosestDistance is zero? or less than some threshold? size of lander?
-  // print to screen that it landed>
 }
 
 
@@ -80,7 +68,6 @@ void World::draw()
     // left edge of the landscape at the left edge of the screen, and
     // the bottom of the landscape BOTTOM_SPACE above the bottom edge
     // of the screen (BOTTOM_SPACE is in viewing coordinates).
- 
 
     float s = 2.0 / (landscape->maxX() - landscape->minX());
 
@@ -91,16 +78,15 @@ void World::draw()
 
   } else {
 
+   float s = 2.0 / (ZOOM_RADIUS);
+    worldToViewTransform
+        = scale(s, s, 1)
+        * translate(lander->centrePosition());
 
     // Find the world-to-view transform that is centred on the lander
-    // and is 2 * ZOOM_RADIUS wide (in world coordinates).
-      float s = 2 * ZOOM_RADIUS / (landscape->maxX() - landscape->minX());
+    // and is 2*ZOOM_RADIUS wide (in world coordinates).
 
-      worldToViewTransform
-          = translate(-1, -1 + BOTTOM_SPACE, 0)
-          * scale(s, s, 1)
-          * translate(-landscape->minX(), -landscape->minY(), 0);
-
+    // YOUR CODE HERE
   }
 
   // Draw the landscape and lander, passing in the worldToViewTransform
