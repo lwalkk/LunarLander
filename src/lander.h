@@ -63,7 +63,7 @@ class Lander {
   void rotateCCW( float deltaT );
   void addThrust( float deltaT );
 
-  vec3 centrePosition() { return position; }
+  vec3 centrePosition() const { return position; }
 
   float speed() { return velocity.length(); }
 

@@ -176,6 +176,7 @@ int main( int argc, char **argv )
     float elapsedSeconds = (thisTime.time + thisTime.millitm / 1000.0) - (prevTime.time + prevTime.millitm / 1000.0);
     prevTime = thisTime;
 
+
     // Update the world state
 
     if (!pauseGame)
