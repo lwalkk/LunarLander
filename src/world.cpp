@@ -27,6 +27,19 @@ void World::updateState( float elapsedTime )
   if (glfwGetKey( window, GLFW_KEY_DOWN ) == GLFW_PRESS) // down arrow
     lander->addThrust( elapsedTime );
 
+  if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS) { // Z key
+      zoomView = true;
+  }
+
+  if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_RELEASE) { // Z key
+      zoomView = false;
+  }
+
+  // Update the current time
+
+  currentTime = elapsedTime;
+
+
   // Update the position and velocity
 
   lander->updatePose( elapsedTime );
@@ -105,7 +118,9 @@ void World::draw()
   ss.setf( ios::fixed, ios::floatfield );
   ss.precision(1);
 
-  ss << "SPEED " << lander->speed() << " m/s";
+  ss << "SPEED " << lander->speed() << " m/s\n";
+  ss << "TIME " << currentTime << "s \n";
+  
   drawStrokeString( ss.str(), -0.95, 0.75, 0.04, glGetUniformLocation( myGPUProgram->id(), "MVP") );
 
   // YOUR CODE HERE (modify the above code, too)

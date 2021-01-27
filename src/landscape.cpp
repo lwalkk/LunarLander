@@ -73,7 +73,7 @@ void Landscape::setupVAO()
   // ---- Create a VAO for this object ----
 
   glGenVertexArrays( 1, &VAO );
-  glBindVertexArray( VAO );
+  GLCall(glBindVertexArray( VAO ));
 
   // Store the vertices
 

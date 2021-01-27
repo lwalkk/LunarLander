@@ -176,6 +176,8 @@ int main( int argc, char **argv )
     float elapsedSeconds = (thisTime.time + thisTime.millitm / 1000.0) - (prevTime.time + prevTime.millitm / 1000.0);
     prevTime = thisTime;
 
+    std::cout << thisTime.time << std::endl;
+
     // Update the world state
 
     if (!pauseGame)

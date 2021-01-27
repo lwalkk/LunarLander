@@ -68,7 +68,16 @@ void Lander::setupVAO()
 
   // ---- Create a VAO for this object ----
 
-  // YOUR CODE HERE
+  GLCall(glGenBuffers(1, &VBO));
+  GLCall(glGenVertexArrays(1, &VAO));
+  GLCall(glBindVertexArray(VAO));
+
+  GLCall(glBindBuffer(GL_ARRAY_BUFFER, VBO));
+  GLCall(glBufferData(GL_ARRAY_BUFFER, 4 * numSegments * sizeof(float), &landerVerts[0], GL_STATIC_DRAW));
+
+  GLCall(glEnableVertexAttribArray(0));
+  GLCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0));
+
 }
 
 
@@ -78,7 +87,9 @@ void Lander::setupVAO()
 void Lander::draw( mat4 &worldToViewTransform )
 
 {
-  // YOUR CODE HERE
+    GLCall(glBindVertexArray(VAO));
+    GLCall(glUniformMatrix4fv(glGetUniformLocation(myGPUProgram->id(), "MVP"), 1, GL_TRUE, &worldToViewTransform[0][0]));
+    GLCall(glDrawArrays(GL_LINES, 0, numSegments));
 }
 
 

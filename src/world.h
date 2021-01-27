@@ -33,6 +33,7 @@ class World {
     window    = w;
     showMsg   = NULL;
     score     = 0;
+    currentTime = 0;
   }
 
   void draw();
@@ -43,6 +44,8 @@ class World {
     lander->reset();
   }
 
+  inline float GetTime() const { return currentTime; }
+
   // World extremes (in world coordinates)
 
   float minX() { return 0; }
@@ -50,7 +53,7 @@ class World {
 
   float minY() { return 0; }
   float maxY() { return (landscape->maxX() - landscape->minX()) / screenAspect * (2 - BOTTOM_SPACE) / 2; }
+private:
+    float currentTime;
 };
-
-
 #endif
