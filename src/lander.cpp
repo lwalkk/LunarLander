@@ -89,7 +89,7 @@ void Lander::draw( mat4 &worldToViewTransform )
 {
     float xMid = worldMaxX / 2;
     float yMid = worldMaxY;
-    worldToViewTransform = worldToViewTransform * translate(xMid, yMid, 0);
+    worldToViewTransform =  worldToViewTransform * translate(position);
     GLCall(glBindVertexArray(VAO));
     GLCall(glUniformMatrix4fv(glGetUniformLocation(myGPUProgram->id(), "MVP"), 1, GL_TRUE, &worldToViewTransform[0][0]));
     GLCall(glDrawArrays(GL_LINES, 0, numSegments));
