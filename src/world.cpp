@@ -51,7 +51,7 @@ void World::updateState( float elapsedTime )
 
   // Find if the view should be zoomed
 
-  zoomView = (closestDistance < ZOOM_RADIUS);
+  //zoomView = (closestDistance < ZOOM_RADIUS);
 
   // Check for landing or collision and let the user know
   //
@@ -91,15 +91,17 @@ void World::draw()
 
   } else {
 
-   float s = 2.0 / (ZOOM_RADIUS);
-    worldToViewTransform
-        = scale(s, s, 1)
-        * translate(lander->centrePosition());
+  
 
     // Find the world-to-view transform that is centred on the lander
     // and is 2*ZOOM_RADIUS wide (in world coordinates).
 
-    // YOUR CODE HERE
+      std::cout << "here" << std::endl;
+
+      float s = 2.0 / (ZOOM_RADIUS);
+      worldToViewTransform
+          = scale(s, s, 1)
+          * translate(lander->centrePosition());
   }
 
   // Draw the landscape and lander, passing in the worldToViewTransform

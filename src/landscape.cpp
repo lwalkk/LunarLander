@@ -95,15 +95,15 @@ void Landscape::setupVAO()
 void Landscape::draw(  mat4 &worldToViewTransform )
 
 {
-  glBindVertexArray( VAO );
+  GLCall(glBindVertexArray( VAO ));
 
-  glUniformMatrix4fv( glGetUniformLocation( myGPUProgram->id(), "MVP"), 1, GL_TRUE, &worldToViewTransform[0][0] );
+  GLCall(glUniformMatrix4fv( glGetUniformLocation( myGPUProgram->id(), "MVP"), 1, GL_TRUE, &worldToViewTransform[0][0] ));
 
 #ifndef MACOS  
   glLineWidth( 2.0 );
 #endif
 
-  glDrawArrays( GL_LINE_STRIP, 0, numVerts );
+  GLCall(glDrawArrays( GL_LINE_STRIP, 0, numVerts ));
 }
 
 
