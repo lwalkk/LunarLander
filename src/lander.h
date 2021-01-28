@@ -47,12 +47,12 @@ class Lander {
 
   void reset() {
 
-#if 1  // production				
+#if 0  // production				
     position = vec3( 0.05 * worldMaxX, 0.7 * worldMaxY, 0.0  );
     velocity = vec3( 30.0f, 0.0f, 0.0f );
 #else  // debug
-    position = vec3( 762, 48, 0 );
-    velocity = vec3( 0, -2, 0 );
+    position = vec3( 762, 300, 0 );
+    velocity = vec3( 0, 0, 0 );
 #endif
 
     orientation = 0;
@@ -71,6 +71,7 @@ class Lander {
     angularVelocity = 0;
     velocity = vec3(0,0,0);
   }
+
 };
 
 

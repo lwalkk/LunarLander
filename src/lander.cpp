@@ -89,7 +89,7 @@ void Lander::draw( mat4 &worldToViewTransform )
 {
     float xMid = worldMaxX / 2;
     float yMid = worldMaxY;
-    worldToViewTransform =  worldToViewTransform * translate(position);
+    worldToViewTransform =  worldToViewTransform * translate(position) * rotate(orientation, vec3(0,0,1));
     GLCall(glBindVertexArray(VAO));
     GLCall(glUniformMatrix4fv(glGetUniformLocation(myGPUProgram->id(), "MVP"), 1, GL_TRUE, &worldToViewTransform[0][0]));
     GLCall(glDrawArrays(GL_LINES, 0, numSegments));
@@ -121,7 +121,14 @@ void Lander::updatePose( float deltaT )
 void Lander::rotateCW( float deltaT )
 
 {
-  orientation -= ROTATION_SPEED * deltaT;
+    fuel -= ROTATIONAL_FUEL_CONSUMPTION * deltaT;
+
+    if (fuel < 0)
+    {
+        fuel = 0;
+        return;
+    }
+    orientation -= ROTATION_SPEED * deltaT;
 
   // YOUR CODE HERE
 }
@@ -130,9 +137,15 @@ void Lander::rotateCW( float deltaT )
 void Lander::rotateCCW( float deltaT )
 
 {
-  orientation += ROTATION_SPEED * deltaT;
+    fuel -= ROTATIONAL_FUEL_CONSUMPTION * deltaT;
+    if (fuel < 0)
+    {
+        fuel = 0;
+        return;
+    }
 
-  // YOUR CODE HERE
+    orientation += ROTATION_SPEED * deltaT;
+
 }
 
 
@@ -142,7 +155,26 @@ void Lander::rotateCCW( float deltaT )
 void Lander::addThrust( float deltaT )
 
 {
-  // YOUR CODE HERE
+    fuel -= THRUST_FUEL_CONSUMPTION * deltaT;
+
+    if (fuel < 0)
+    {
+        fuel = 0;
+        return;
+    }
+
+    float xComp = -sin(orientation);
+    float yComp = cos(orientation);
+    float zComp = 0;
+
+    float xVel = THRUST_ACCEL * deltaT * xComp;
+    float yVel = THRUST_ACCEL * deltaT * yComp;
+
+
+    velocity = velocity + vec3(xVel, yVel, 0);
+    
+
+
 }
 
 

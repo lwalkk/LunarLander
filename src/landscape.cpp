@@ -88,7 +88,6 @@ void Landscape::setupVAO()
   glVertexAttribPointer( 0, 2, GL_FLOAT, GL_FALSE, 0, 0 );
 }
 
-
 // Draw the landscape
 
 

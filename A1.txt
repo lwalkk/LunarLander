@@ -1,0 +1,125 @@
+CISC/CMPE 454 Assignment 1 - Lunar Lander
+
+You will implement a lunar lander game by extending the skeleton code
+provided in this directory.
+
+Compile the code
+----------------
+
+On Linux:
+
+  Go to the linux directory.
+  Execute make
+
+  If this fails, you may need to install the glfw library like this:
+  sudo apt-get install libglfw3-dev
+
+On Windows with Visual Studio:
+
+  Click on a1.vcxproj
+  Press F7.
+
+On Mac:
+
+  Go to the macos directory.
+  Execute make
+
+  If this fails, you may need to install gcc and glfw by following the
+  instructions in the README.txt file in the macos directory.
+
+Run the code
+------------
+
+Run the code and verify that a window pops up with a landscape drawn
+in green and a title.  On Linux and MacOS this is done by typing ./ll
+in the terminal window.
+
+Read the code
+-------------
+
+Read *all* of the code to get a general understanding of it.  This
+should take an hour and will help a great deal later on.
+
+Modify the code
+---------------
+
+All modifications are done in places with a comment saying "YOUR CODE
+HERE":
+
+1. Modify World::draw() to calculate a transform for a zoomed view.
+   [1 mark]
+
+2. Modify Landscape::findClosestPoint() to compute the point on a segment
+   that is closest to a given point. [1 mark]
+
+3. Modify Lander::setupVAO() to set up the VAO that defines the lander
+   segments. [1 mark]
+
+4. Modify Lander::draw() to draw the lander in the correct position and
+   orientation. [1 mark]
+
+5. Modify Lander::addThrust() to change the lander velocity.  Use
+   THRUST_ACCEL and the current lander orientation. [1 mark]
+
+6. Modify World::draw() to output text that shows the same information as
+   the original lunar lander game (search Google Images for this).  There
+   are six pieces of information: score, time, fuel, altitude (above the
+   closest ground directly below), horizontal speed (with an arrow), and
+   vertical speed (with an arrow). [1 mark]
+
+   You will need another function to calculate your altitude by finding
+   which landscape segment the lander is above, and calculating the
+   distance from the *bottom* of the lander to that segment. [2 marks]
+
+   You will need to maintain the amount of fuel, and decrease it in
+   proportion to thrust (differently for main thrust and rotational
+   thrust). [1 mark]
+
+7. Modify World::updateState() to check for landing or collision.
+   Landing is successful if the vertical speed is less than 1 m/s and
+   the horizontal speed is less than 0.5 m/s.  Perform some action so
+   that the player knows whether the landing was successful, and award
+   points.  [3 marks]
+
+8. Optionally, implement an additional *graphics* feature.  Up to
+   [2 bonus marks] can be awarded for additional features.  Simple
+   features (like more output text or handling multiple rounds) will
+   not get any marks.  A good graphics feature might be a flame that
+   gradually extends below the lander and shimmers a bit.
+
+DO NOT add any code that is specific to a particular operating system.
+If you do so, you code might not compile on the TA's machine and will
+not be marked.
+
+DO NOT add new files, as the TA's marking environment will not see
+them.
+
+Submit the code
+---------------
+
+Create a NEW DIRECTORY called 'a1'.
+
+COPY ONLY THESE FILES into that directory:
+
+   *.cpp
+   *.h
+   README.txt   
+
+The README.txt must contain the names, emails, netIDs of each person
+in the group, and *may* contain comments you have for the TA, such as
+a description of extra modifications you made.
+
+Create a zip archive of that directory, named 'a1.zip'.  
+
+Do not include other files and directories.  In particular, DO NOT
+INCLUDE THESE: .vs A1.txt a1.sln a1.vcxproj a1.vcxproj.filters glad
+include lib32 lib64 libglfw.so ll resource.h .
+
+If you include ANY other files, including the ones listed directly
+above, you will LOSE 1 MARK.  If your zip archive does not contain
+everything in a directory called 'a1', you will LOSE 1 MARK.  If you
+use a different name than a1.zip for the archive, you WILL LOSE 1
+MARK.  Your archive should be under 500 KB.  If it's larger, you've
+likely included extra files.
+
+Submit the zip archive on OnQ.

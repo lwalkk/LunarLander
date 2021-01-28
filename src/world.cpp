@@ -35,9 +35,6 @@ void World::updateState( float elapsedTime )
       zoomView = false;
   }
 
-  // Update the current time
-
-  currentTime = elapsedTime;
 
 
   // Update the position and velocity
@@ -52,6 +49,11 @@ void World::updateState( float elapsedTime )
   // Find if the view should be zoomed
 
   zoomView = (closestDistance < ZOOM_RADIUS);
+
+  std::cout << currentTime << std::endl;
+
+  currentTime += elapsedTime;
+
 
   // Check for landing or collision and let the user know
   //
@@ -112,6 +114,16 @@ void World::draw()
 
   // Draw the heads-up display (i.e. all text).
 
+  /*
+  * TODO:
+  * Score 
+  * Time 
+  * Fuel Done
+  * Altitude
+  * Horizontal Speed
+  * Vertical Speed
+  */
+
   stringstream ss;
 
   drawStrokeString( "LUNAR LANDER", -0.2, 0.85, 0.06, glGetUniformLocation( myGPUProgram->id(), "MVP") );
@@ -120,7 +132,8 @@ void World::draw()
   ss.precision(1);
 
   ss << "SPEED " << lander->speed() << " m/s\n";
-  ss << "TIME " << currentTime << "s \n";
+  ss << "FUEL " << lander->fuel << "\n";
+  ss << "TIME " << currentTime << "\n";
   
   drawStrokeString( ss.str(), -0.95, 0.75, 0.04, glGetUniformLocation( myGPUProgram->id(), "MVP") );
 

@@ -21,10 +21,11 @@ class vec4;
 
 class vec3 {
 public:
+  
+  vec3() {}
 
   float x, y, z;
 
-  vec3() {}
 
   vec3( float xx, float yy, float zz )
     { x = xx; y = yy; z = zz; }
@@ -52,11 +53,21 @@ public:
   vec3 operator % (vec3 p) const /* component-wise product */
     { return vec3( x*p.x, y*p.y, z*p.z ); }
 
+  vec3 operator += (vec3 p)
+  {
+      x = x + p.x;
+      y = y + p.y;
+      z = z + p.z;
+      return vec3(x, y, z);
+  }
+
   vec3 normalize() const {
     float len;
     len = sqrt( x*x + y*y + z*z );
     return vec3( x/len, y/len, z/len );
   }
+
+
 
   float length() const
     { return sqrt( x*x + y*y + z*z ); }
