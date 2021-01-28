@@ -114,12 +114,23 @@ void Landscape::draw(  mat4 &worldToViewTransform )
 vec3 Landscape::findClosestPoint( vec3 position, vec3 segTail, vec3 segHead )
 
 {
-  // Compute perpendicular projection of 'position' onto the line
-  // containing 'segTail' and 'segHead'.  If the projection is outside
-  // the range [segTail,segHead], return the closest end of that
-  // range.
+    vec3 point = position - segTail;
+    vec3 line = segHead - segTail;
 
-  // YOUR CODE HERE
+    float out = point * line.normalize();
+
+   if (out < 0) {
+       return segTail;
+
+   }
+   else if (out > sqrt(line.squaredLength())) {
+       return segHead;
+   }
+   else {
+       return segTail + out * line;
+   }
+
+
 
   return vec3(0,0,0);
 }
