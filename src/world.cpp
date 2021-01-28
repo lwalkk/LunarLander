@@ -96,12 +96,13 @@ void World::draw()
     // Find the world-to-view transform that is centred on the lander
     // and is 2*ZOOM_RADIUS wide (in world coordinates).
 
-      std::cout << "here" << std::endl;
+      float s = 2.0 / (landscape->maxX() - landscape->minX());
 
-      float s = 2.0 / (ZOOM_RADIUS);
       worldToViewTransform
-          = scale(s, s, 1)
-          * translate(lander->centrePosition());
+          = translate(-1, -1 + BOTTOM_SPACE, 0)
+          * translate(lander->centrePosition())
+          * scale(s, s, 1)
+          * translate(-landscape->minX(), -landscape->minY(), 0);
   }
 
   // Draw the landscape and lander, passing in the worldToViewTransform
