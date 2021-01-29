@@ -100,6 +100,13 @@ int main( int argc, char **argv )
 {
   // Set up GLFW
 
+#if _DEBUG
+    std::cout << "Debug!" << std::endl;
+#else
+    std::cout << "Release!" << std::endl;
+
+#endif
+
   GLFWwindow* window;
 
   if (!glfwInit()) {

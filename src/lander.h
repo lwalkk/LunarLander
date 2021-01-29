@@ -18,6 +18,11 @@ class Lander {
   GLuint VAO;			// VAO for lander geometry
   GLuint VBO;			// VBO for vertex buffer, in case it needs to be updated 
 
+#if _DEBUG
+  GLuint triVAO;
+  GLuint triVBO;
+#endif
+
   vec3 position;		// position in world coordinates (m)
 
   float orientation;		// orientation (radians CCW)

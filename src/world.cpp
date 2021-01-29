@@ -48,9 +48,17 @@ void World::updateState( float elapsedTime )
 
   // Find if the view should be zoomed
 
+#if 1
+
   zoomView = (closestDistance < ZOOM_RADIUS);
 
-  std::cout << currentTime << std::endl;
+#else
+  // debug
+  zoomView = true;
+
+#endif
+
+  
 
   currentTime += elapsedTime;
 
@@ -65,8 +73,6 @@ void World::updateState( float elapsedTime )
   //
   // SHOULD ALSO CHECK THAT THE LANDER IS VERTICAL, BUT THIS IS NOT
   // REQUIRED IN THE ASSIGNMENT.
-
-  // YOUR CODE HERE
 }
 
 
@@ -110,15 +116,18 @@ void World::draw()
   // complete transform to the vertex shader.
 
   landscape->draw( worldToViewTransform );
-  lander->draw( worldToViewTransform );
+  lander->draw(worldToViewTransform);
+
+  float altitude = landscape->findYCoord(lander->centrePosition());
+  std::cout << altitude << std::endl;
 
   // Draw the heads-up display (i.e. all text).
 
   /*
   * TODO:
   * Score 
-  * Time 
-  * Fuel Done
+  * Time -- DONE
+  * Fuel -- DONE
   * Altitude
   * Horizontal Speed
   * Vertical Speed

@@ -106,32 +106,23 @@ void Landscape::draw(  mat4 &worldToViewTransform )
 }
 
 
-// Find the point on a segment ( 'segTail', 'segHead' ) that is
-// closest to 'position'.
+// Find the point on a segment ( 'P', 'Q' ) that is
+// closest to 'X'.
 
-
-vec3 Landscape::findClosestPoint( vec3 position, vec3 segTail, vec3 segHead )
+vec3 Landscape::findClosestPoint( vec3 X, vec3 P, vec3 Q )
 
 {
-    vec3 point = position - segTail;
-    vec3 line = segHead - segTail;
+    float dot = (X - P) * (Q - P) / ((Q - P) * (Q - P));
 
-    float out = point * line.normalize();
+    if (dot <= 0)
+        return P;
 
-   if (out < 0) {
-       return segTail;
+    else if (dot > 1)
+        return Q;
 
-   }
-   else if (out > sqrt(line.squaredLength())) {
-       return segHead;
-   }
-   else {
-       return segTail + out * line;
-   }
+    else
+        return P + dot * (Q - P);
 
-
-
-  return vec3(0,0,0);
 }
 
 
@@ -161,6 +152,60 @@ vec3 Landscape::findClosestPoint( vec3 position )
   }
 
   return closestPoint;
+}
+
+float Landscape::findYCoord(vec3 position) const
+{
+
+    
+    float posX = position.x;
+    float posY = position.y;
+
+    float closestDistance = abs(position.x - landscapeVerts[0]);
+    int closestIndex = 0;
+
+    for (int i = 0; i < numVerts - 1; i++)
+    {
+        float landX = landscapeVerts[2 * i];
+
+        if (abs(posX - landX) < closestDistance)
+        {
+            closestDistance = abs(landX - posX);
+            closestIndex = 2 * i;
+        }
+
+
+    }
+
+    int adjacentIndex;
+
+    if ((closestIndex != 0) && (closestIndex != (2 * numVerts - 2)))
+    {
+        if (posX > landscapeVerts[closestIndex])
+            adjacentIndex = closestIndex + 2;
+        else
+            adjacentIndex = closestIndex - 2;
+
+        float x1 = landscapeVerts[closestIndex];
+        float y1 = landscapeVerts[closestIndex + 1];
+        float x2 = landscapeVerts[adjacentIndex];
+        float y2 = landscapeVerts[adjacentIndex + 1];
+
+        float alt = posY - ((y2 - y1) / (x2 - x1)) * (posX - x1) + y1;
+
+        return alt;
+
+    }
+
+    else
+    {
+        std::cout << "edge case" << std::endl;
+        return landscapeVerts[closestIndex + 1];
+
+    }
+  
+
+
 }
 
 
