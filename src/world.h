@@ -24,6 +24,9 @@ class World {
   char *showMsg;
   int  score;
 
+  GLuint arrowVAO;
+  int    numArrowVerts;
+
  public:
 
   World( GLFWwindow *w ) {
@@ -53,7 +56,13 @@ class World {
 
   float minY() { return 0; }
   float maxY() { return (landscape->maxX() - landscape->minX()) / screenAspect * (2 - BOTTOM_SPACE) / 2; }
+
+  void setupArrowVAO();
+
+  inline float GetAlt() { return altitude; }
+
 private:
     float currentTime;
+    float altitude = 1;
 };
 #endif

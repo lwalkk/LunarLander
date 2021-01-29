@@ -60,11 +60,36 @@ void Lander::setupVAO()
  
   mat4 modelToOriginTransform = scale( s, -s, 1 ) * translate( -(min.x+max.x)/2, -(min.y+max.y)/2, 0 );
 
+
+
   for (int i=0; landerVerts[i] != -1; i+=2) {
     vec4 newV = modelToOriginTransform * vec4( landerVerts[i], landerVerts[i+1], 0.0, 1.0 );
     landerVerts[i]   = newV.x / newV.w;
-    landerVerts[i+1] = newV.y / newV.w;
+    landerVerts[i + 1] = newV.y / newV.w;
+
   }
+
+  float minX = landerVerts[0];
+  float maxX = landerVerts[0];
+  float minY = landerVerts[1];
+  float maxY = landerVerts[1];
+
+  for (int i = 0; landerVerts[i] != -1; i += 2)
+  {
+      if (landerVerts[i] > maxX)
+          maxX = landerVerts[i];
+      if (landerVerts[i] < minX)
+          minX = landerVerts[i];
+
+      if (landerVerts[i + 1] > maxY)
+          maxY = landerVerts[i + 1];
+      if (landerVerts[i + 1] < minY)
+          minY = landerVerts[i + 1];
+  }
+
+  width = maxX - minX;
+  height = maxY - minY; 
+
 
   // ---- Create a VAO for this object ----
 
@@ -109,16 +134,21 @@ void Lander::draw( mat4 &worldToViewTransform )
 void Lander::updatePose( float deltaT )
 
 {
-  position    = position    + deltaT * velocity;           // first-order approximations
-  orientation = orientation + deltaT * angularVelocity;
-  velocity    = velocity    + deltaT * GRAVITY;
+    if (moveable) 
+    {
+        position = position + deltaT * velocity;           // first-order approximations
+        orientation = orientation + deltaT * angularVelocity;
+        velocity = velocity + deltaT * GRAVITY;
 
-  // wrap around screen
+        // wrap around screen
 
-  if (position.x > world->maxX() + 10)
-    position.x = world->minX() - 10;
-  else if (position.x < world->minX() - 10)
-    position.x = world->maxX() + 10;
+        if (position.x > world->maxX() + 10)
+            position.x = world->minX() - 10;
+        else if (position.x < world->minX() - 10)
+            position.x = world->maxX() + 10;
+
+    }
+ 
 }
 
 
@@ -128,14 +158,18 @@ void Lander::updatePose( float deltaT )
 void Lander::rotateCW( float deltaT )
 
 {
-    fuel -= ROTATIONAL_FUEL_CONSUMPTION * deltaT;
-
-    if (fuel < 0)
+    if (moveable)
     {
-        fuel = 0;
-        return;
+        fuel -= ROTATIONAL_FUEL_CONSUMPTION * deltaT;
+
+        if (fuel < 0)
+        {
+            fuel = 0;
+            return;
+        }
+        orientation -= ROTATION_SPEED * deltaT;
     }
-    orientation -= ROTATION_SPEED * deltaT;
+    
 
 }
 
@@ -143,14 +177,19 @@ void Lander::rotateCW( float deltaT )
 void Lander::rotateCCW( float deltaT )
 
 {
-    fuel -= ROTATIONAL_FUEL_CONSUMPTION * deltaT;
-    if (fuel < 0)
+    if (moveable)
     {
-        fuel = 0;
-        return;
-    }
+        fuel -= ROTATIONAL_FUEL_CONSUMPTION * deltaT;
+        if (fuel < 0)
+        {
+            fuel = 0;
+            return;
+        }
 
-    orientation += ROTATION_SPEED * deltaT;
+        orientation += ROTATION_SPEED * deltaT;
+
+    }
+ 
 
 }
 
@@ -161,25 +200,27 @@ void Lander::rotateCCW( float deltaT )
 void Lander::addThrust( float deltaT )
 
 {
-    fuel -= THRUST_FUEL_CONSUMPTION * deltaT;
-
-    if (fuel < 0)
+    if (moveable)
     {
-        fuel = 0;
-        return;
+        fuel -= THRUST_FUEL_CONSUMPTION * deltaT;
+
+        if (fuel < 0)
+        {
+            fuel = 0;
+            return;
+        }
+
+        float xComp = -sin(orientation);
+        float yComp = cos(orientation);
+        float zComp = 0;
+
+        float xVel = THRUST_ACCEL * deltaT * xComp;
+        float yVel = THRUST_ACCEL * deltaT * yComp;
+
+
+        velocity = velocity + vec3(xVel, yVel, 0);
+
     }
-
-    float xComp = -sin(orientation);
-    float yComp = cos(orientation);
-    float zComp = 0;
-
-    float xVel = THRUST_ACCEL * deltaT * xComp;
-    float yVel = THRUST_ACCEL * deltaT * yComp;
-
-
-    velocity = velocity + vec3(xVel, yVel, 0);
-    
-
 
 }
 

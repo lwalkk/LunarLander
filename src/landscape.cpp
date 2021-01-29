@@ -154,6 +154,41 @@ vec3 Landscape::findClosestPoint( vec3 position )
   return closestPoint;
 }
 
+
+float Landscape::findClosestPointf(vec3 position)
+{
+    // x coordinate of the lander
+    float xPosition = position.x;
+    // y coordinate of the lander 
+    float yPosition = position.y;
+
+    // find y coordinate where xcoordinate of terrain is x coordinate of lander
+
+    float low = 10000;
+    int n1, n2;
+
+    for (int i = 0; i < numVerts - 1; i++)
+    {
+        float x1 = landscapeVerts[2 * i];
+        float x2 = landscapeVerts[2 * (i + 1)];
+
+        float xMid = (x1 + x2) / 2;
+
+        if (abs(xPosition - xMid) < low)
+        {
+            low = abs(xPosition - xMid);
+            n1 = 2 * i;
+            n2 = 2 * (i + 1);
+        }
+
+        
+    }
+
+    float yPoint = (landscapeVerts[n1 + 1] + landscapeVerts[n2 + 1]) / 2;
+
+    return yPosition - yPoint;
+}
+
 float Landscape::findYCoord(vec3 position) const
 {
 

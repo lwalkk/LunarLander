@@ -18,12 +18,9 @@ class Lander {
   GLuint VAO;			// VAO for lander geometry
   GLuint VBO;			// VBO for vertex buffer, in case it needs to be updated 
 
-#if _DEBUG
-  GLuint triVAO;
-  GLuint triVBO;
-#endif
 
   vec3 position;		// position in world coordinates (m)
+  
 
   float orientation;		// orientation (radians CCW)
   float angularVelocity;	// angular velocity (radians/second CCW)
@@ -36,12 +33,22 @@ class Lander {
   vec3 velocity;		// velocity in world coordinates (m/s)
   float fuel;
 
+  inline void StopMovement() {
+      moveable = false;
+  }
+
+  inline void StartMovement()
+  {
+      moveable = true;
+  }
+
   Lander( float maxX, float maxY ) {
     worldMaxX = maxX;
     worldMaxY = maxY;
     reset();
     setupVAO();
     fuel = 5000;
+    moveable = true;
   };
 
   void setupVAO();  
@@ -52,7 +59,7 @@ class Lander {
 
   void reset() {
 
-#if 0  // production				
+#if 1  // production				
     position = vec3( 0.05 * worldMaxX, 0.7 * worldMaxY, 0.0  );
     velocity = vec3( 30.0f, 0.0f, 0.0f );
 #else  // debug
@@ -76,6 +83,8 @@ class Lander {
     angularVelocity = 0;
     velocity = vec3(0,0,0);
   }
+private:
+    bool moveable;
 
 };
 

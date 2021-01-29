@@ -40,6 +40,7 @@ class Landscape {
 
   vec3 findClosestPoint( vec3 position, vec3 segTail, vec3 segHead );
   vec3 findClosestPoint( vec3 position );
+  float findClosestPointf(vec3 position);
 
   float findYCoord(vec3 position) const;
 

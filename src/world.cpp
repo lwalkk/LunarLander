@@ -73,6 +73,29 @@ void World::updateState( float elapsedTime )
   //
   // SHOULD ALSO CHECK THAT THE LANDER IS VERTICAL, BUT THIS IS NOT
   // REQUIRED IN THE ASSIGNMENT.
+
+  if (altitude < 0)
+  {
+      float velX = (lander->velocity).x;
+      float velY = (lander->velocity).y;
+
+      if (velX < 0.5 || velY < 1)
+      {
+          lander->StopMovement();
+          // add to score
+          // say success or some shit
+      }
+      else
+      {
+          lander->StopMovement();
+          // say failure
+          // subtract from score?
+      }
+          
+     
+  }
+
+  
 }
 
 
@@ -118,7 +141,8 @@ void World::draw()
   landscape->draw( worldToViewTransform );
   lander->draw(worldToViewTransform);
 
-  float altitude = landscape->findYCoord(lander->centrePosition());
+  altitude = landscape->findClosestPointf(lander->centrePosition()) - 0.5 * lander->height;
+
   std::cout << altitude << std::endl;
 
   // Draw the heads-up display (i.e. all text).
@@ -128,7 +152,7 @@ void World::draw()
   * Score 
   * Time -- DONE
   * Fuel -- DONE
-  * Altitude
+  * Altitude -- DONE
   * Horizontal Speed
   * Vertical Speed
   */
@@ -150,3 +174,42 @@ void World::draw()
 
 
 }
+
+void World::setupArrowVAO()
+
+{
+    // create an arrow from line segments
+
+    GLfloat arrowVerts[] = {
+      0,    1,    0,    -1,
+      0,    1,    0.5, 0.25,
+      0,    1,   -0.5, 0.25,
+      0.5, 0.25, -0.5, 0.25
+    };
+
+    numArrowVerts = sizeof(arrowVerts) / sizeof(GLfloat);
+
+    // ---- Create a VAO for this object ----
+
+    glGenVertexArrays(1, &arrowVAO);
+    glBindVertexArray(arrowVAO);
+
+    // Store the vertices
+
+    GLuint VBO;
+
+    glGenBuffers(1, &VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, numArrowVerts * sizeof(GLfloat), arrowVerts, GL_STATIC_DRAW);
+
+    // define the position attribute
+
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+    // Done
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+}
+
