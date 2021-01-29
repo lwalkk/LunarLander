@@ -75,13 +75,15 @@ void World::updateState( float elapsedTime )
   // REQUIRED IN THE ASSIGNMENT.
 
   if (altitude < 0)
-  {
+  {   
+      
       float velX = (lander->velocity).x;
       float velY = (lander->velocity).y;
+      // freeze lander if it hits terrain
+      lander->StopMovement();
 
       if (velX < 0.5 || velY < 1)
       {
-          lander->StopMovement();
           Sleep(5000);
           world->resetLander();
           lander->StartMovement();
@@ -89,7 +91,6 @@ void World::updateState( float elapsedTime )
       }
       else
       {
-          lander->StopMovement();
           Sleep(5000);
           world->resetLander();
           lander->StartMovement();
@@ -131,11 +132,11 @@ void World::draw()
     // Find the world-to-view transform that is centred on the lander
     // and is 2*ZOOM_RADIUS wide (in world coordinates).
 
+    // calculate size of window similarily to above
       float s = 2.0 / (2 * ZOOM_RADIUS);
-
+    // translate to the lander centre and scale
       worldToViewTransform
-          = translate(0, 0, 0)
-          * scale(s, s, 1)
+          = scale(s, s, 1)
           * translate(-1 * lander->centrePosition());
   }
 

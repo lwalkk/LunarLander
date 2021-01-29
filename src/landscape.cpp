@@ -112,6 +112,7 @@ void Landscape::draw(  mat4 &worldToViewTransform )
 vec3 Landscape::findClosestPoint( vec3 X, vec3 P, vec3 Q )
 
 {
+    // dot product to find closest point
     float dot = (X - P) * (Q - P) / ((Q - P) * (Q - P));
 
     if (dot <= 0)
