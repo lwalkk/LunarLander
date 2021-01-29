@@ -119,11 +119,6 @@ void Lander::draw( mat4 &worldToViewTransform )
     GLCall(glUniformMatrix4fv(glGetUniformLocation(myGPUProgram->id(), "MVP"), 1, GL_TRUE, &worldToViewTransform[0][0]));
     GLCall(glDrawArrays(GL_LINES, 0, numSegments));
 
-#if _DEBUG
-
-
-#endif
-
     // draw landing hitboxes
 }
 

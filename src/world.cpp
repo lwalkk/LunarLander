@@ -10,6 +10,8 @@
 #include <sstream>
 #include <iomanip>
 
+# define PI           3.14159265358979323846
+
 //const float textAspect = 0.7;	// text width-to-height ratio (you can use this for more realistic text on the screen)
 
 
@@ -157,20 +159,59 @@ void World::draw()
   * Vertical Speed
   */
 
-  stringstream ss;
+  stringstream ss_left;
 
   drawStrokeString( "LUNAR LANDER", -0.2, 0.85, 0.06, glGetUniformLocation( myGPUProgram->id(), "MVP") );
 
-  ss.setf( ios::fixed, ios::floatfield );
-  ss.precision(1);
-
-  ss << "SPEED " << lander->speed() << " m/s\n";
-  ss << "FUEL " << lander->fuel << "\n";
-  ss << "TIME " << currentTime << "\n";
   
-  drawStrokeString( ss.str(), -0.95, 0.75, 0.04, glGetUniformLocation( myGPUProgram->id(), "MVP") );
 
-  // YOUR CODE HERE (modify the above code, too)
+  ss_left << "SCORE " << score << "\n";
+  ss_left << "TIME " << currentTime << "\n";
+  ss_left << "FUEL " << lander->fuel << "\n";
+
+  stringstream ss_right;
+
+  ss_right.setf(ios::fixed, ios::floatfield);
+  ss_right.precision(1);
+
+  ss_right << "ALTITUDE " << altitude << "\n";
+  ss_right << "HORIZONTAL SPEED " << abs((lander->velocity).x) << "\n";
+  ss_right << "VERTICAL SPEED " << abs((lander->velocity).y) << "\n";
+
+  
+  drawStrokeString( ss_left.str(), -0.95, 0.75, 0.04, glGetUniformLocation( myGPUProgram->id(), "MVP") );
+  drawStrokeString( ss_right.str(), 0.25, 0.75, 0.04, glGetUniformLocation(myGPUProgram->id(), "MVP") );
+
+  float s = 2.0 / (landscape->maxX() - landscape->minX());
+
+  float thetaX = - PI /2;
+  float thetaY = 0;
+
+  if ((lander->velocity).x < 0)
+      thetaX = PI / 2;
+  if ((lander->velocity).y < 0)
+      thetaY = -PI;
+
+  worldToViewTransform
+      =  translate(0.9,0.72,0) * rotate(thetaX, vec3(0,0,1)) * scale(0.03, 0.03, 1) ;
+
+   
+  GLCall(glBindVertexArray(arrowVAO));
+  GLCall(glUniformMatrix4fv(glGetUniformLocation(myGPUProgram->id(), "MVP"), 1, GL_TRUE, &worldToViewTransform[0][0]));
+  GLCall(glDrawArrays(GL_LINES, 0, numArrowVerts));
+
+  worldToViewTransform
+      =  translate(0.9, 0.65, 0) * rotate(thetaY, vec3(0, 0, 1)) * scale(0.03, 0.03, 1);
+
+  GLCall(glBindVertexArray(arrowVAO));
+  GLCall(glUniformMatrix4fv(glGetUniformLocation(myGPUProgram->id(), "MVP"), 1, GL_TRUE, &worldToViewTransform[0][0]));
+  GLCall(glDrawArrays(GL_LINES, 0, numArrowVerts));
+
+
+
+
+
+
 
 
 }

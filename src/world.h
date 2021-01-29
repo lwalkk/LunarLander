@@ -37,6 +37,7 @@ class World {
     showMsg   = NULL;
     score     = 0;
     currentTime = 0;
+    setupArrowVAO();
   }
 
   void draw();
