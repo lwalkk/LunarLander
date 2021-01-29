@@ -82,12 +82,17 @@ void World::updateState( float elapsedTime )
       if (velX < 0.5 || velY < 1)
       {
           lander->StopMovement();
-          // add to score
+          Sleep(5000);
+          world->resetLander();
+          lander->StartMovement();
           // say success or some shit
       }
       else
       {
           lander->StopMovement();
+          Sleep(5000);
+          world->resetLander();
+          lander->StartMovement();
           // say failure
           // subtract from score?
       }
