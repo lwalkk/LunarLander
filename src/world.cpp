@@ -76,7 +76,7 @@ void World::updateState( float elapsedTime )
 
   if (altitude < 0)
   {   
-      
+      float oldScore = world->score;
       float velX = (lander->velocity).x;
       float velY = (lander->velocity).y;
       // freeze lander if it hits terrain
@@ -84,6 +84,7 @@ void World::updateState( float elapsedTime )
 
       if (velX < 0.5 || velY < 1)
       {
+          world->score = oldScore + 100;
           Sleep(5000);
           world->resetLander();
           lander->StartMovement();
